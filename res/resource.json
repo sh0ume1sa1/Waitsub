@@ -1,0 +1,41 @@
+{
+  "mail_info": {
+    "mail_to": ["kayomii2678@gmail.com","caijmiscool@gmail.com"],
+    "mail_server": "smtp.muumuu-mail.com",
+    "mail_port": 465,
+    "mail_pass": "", 
+    "mail_user": "noreply@tiza-mbp.biz",
+    "mail_subject":"The subtitle you are waitng for is Uploaded !!!",
+    "mail_body":"<div></div>"
+
+  },
+  "opensubtitile": {
+    "COMMON_HEAD": "https://www.opensubtitles.org/en/",
+    "SUB_URL_FORSEARCH": "https://www.opensubtitles.org/libs/suggest.php?format=json3&MovieName=TESTTEST&SubLanguageID=jpn",
+    "SUB_URL": "https://www.opensubtitles.org/en/subtitleserve/sub/SUBID",
+    "SUB_DL_URL": "http://dl.opensubtitles.org/en/download/sub/SUBID",
+    "MOVIE_URL": "https://www.opensubtitles.org/en/search/sublanguageid-jpn/idmovie-MOVIEID"
+  },
+  "moveie_for_search": [{
+      "name": "wonder woman",
+      "year": "2020",
+      "wanted": true
+    },
+    {
+      "name": "tenet",
+      "year": "2020",
+      "wanted": true
+    },
+    {
+      "name": "men in black",
+      "year": "",
+      "wanted": true
+    },
+    {
+      "name": "yummy",
+      "year": "2019",
+      "wanted": true
+    }
+   
+  ] 
+}

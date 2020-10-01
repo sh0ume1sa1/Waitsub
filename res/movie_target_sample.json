@@ -1,0 +1,97 @@
+[
+        {
+            "id": "rambo-2019",
+            "name": "rambo",
+            "year": "2019",
+            "wanted": true,
+            "movie_url": "search/sublanguageid-jpn/idmovie-34867",
+            "found": true,
+            "lastFound": "202001011020",
+            "subList": [
+                {"subName":"aaaa","rating":"7.0/1","uploadYmd":"20190301","subUrl":"subtitleserve/sub/8150232"},
+                {"subName":"bbbb","rating":"10/1","uploadYmd":"20190301","subUrl":"subtitleserve/sub/8150233"},
+                {"subName":"cccc","rating":"3.5/4","uploadYmd":"20190301","subUrl":"subtitleserve/sub/8150234"}
+            ],
+            "subListFlat": "aaaa:7.0/1 20190303 http://subtitleserve/sub/8150232 <br/> bbbb:10/1 20190303 http://subtitleserve/sub/8150232 <br/> cccc:7.0/1 20190303 http://subtitleserve/sub/8150232 <br/>"
+        },
+        {
+            "id": "Men in Black: International-2019",
+            "name": "Men in Black: International",
+            "year": "2019",
+            "wanted": true,
+            "movie_url": "search/sublanguageid-jpn/idmovie-704485",
+            "found": true,
+            "total": "1",
+            "lastFound": "2020-09-29",
+            "subList": [
+              {
+                "subId": "7897527",
+                "subName": "Men in Black: International Japanese 1CD",
+                "rating": "TODO",
+                "uploadYmd": "TODO",
+                "subUrl": "https://www.opensubtitles.org/en/download/sub/7897527"
+              }
+            ],
+            "subListFlat": "Men in Black: International Japanese 1CD rating:TODO year:TODO idman.exe /n /p b:\\ /d https://www.opensubtitles.org/en/download/sub/7897527"
+          },
+          {
+            "id": "Men in Black-1997",
+            "name": "Men in Black",
+            "year": "1997",
+            "wanted": true,
+            "movie_url": "search/sublanguageid-jpn/idmovie-1919",
+            "found": true,
+            "total": "1",
+            "lastFound": "2020-09-29",
+            "subList": [
+              {
+                "subId": "7950555",
+                "subName": "Men in Black Japanese 1CD",
+                "rating": "TODO",
+                "uploadYmd": "TODO",
+                "subUrl": "https://www.opensubtitles.org/en/download/sub/7950555"
+              }
+            ],
+            "subListFlat": "Men in Black Japanese 1CD rating:TODO year:TODO idman.exe /n /p b:\\ /d https://www.opensubtitles.org/en/download/sub/7950555"
+          },
+          {
+            "id": "Men in Black 3-2012",
+            "name": "Men in Black 3",
+            "year": "2012",
+            "wanted": true,
+            "movie_url": "search/sublanguageid-jpn/idmovie-127635",
+            "found": true,
+            "total": "1",
+            "lastFound": "2020-09-29",
+            "subList": [
+              {
+                "subId": "8341687",
+                "subName": "Men in Black 3 Japanese 1CD",
+                "rating": "TODO",
+                "uploadYmd": "TODO",
+                "subUrl": "https://www.opensubtitles.org/en/download/sub/8341687"
+              }
+            ],
+            "subListFlat": "Men in Black 3 Japanese 1CD rating:TODO year:TODO idman.exe /n /p b:\\ /d https://www.opensubtitles.org/en/download/sub/8341687"
+          },
+          {
+            "id": "Men in Black II-2002",
+            "name": "Men in Black II",
+            "year": "2002",
+            "wanted": true,
+            "movie_url": "search/sublanguageid-jpn/idmovie-1978",
+            "found": true,
+            "total": "1",
+            "lastFound": "2020-09-29",
+            "subList": [
+              {
+                "subId": "8341686",
+                "subName": "Men in Black II Japanese 1CD",
+                "rating": "TODO",
+                "uploadYmd": "TODO",
+                "subUrl": "https://www.opensubtitles.org/en/download/sub/8341686"
+              }
+            ],
+            "subListFlat": "Men in Black II Japanese 1CD rating:TODO year:TODO idman.exe /n /p b:\\ /d https://www.opensubtitles.org/en/download/sub/8341686"
+          }
+]
