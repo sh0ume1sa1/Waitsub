@@ -32,26 +32,29 @@ SUB_URL_FORSEARCH_JP = "https://www.opensubtitles.org/libs/suggest.php?format=js
 SUB_URL = COMMON_HEAD + "subtitleserve/sub/SUBID"
 SUB_DL_URL = COMMON_HEAD + "download/sub/SUBID"
 MOVIE_URL_JP = "search/sublanguageid-jpn/idmovie-MOVIEID"
+DL_URL = "http://dl.opensubtitles.org/en/download/sub/"
 DEBUG = False
+IDM =" idman.exe /n /p b:\ /d "
 MAIL = """\
 <html>
   <head></head>
   <body>
-    <p style='font-size:16.0pt;font-family:游ゴシック'>This is a test message.</p>
-    <p>Text and HTML</p>
-    <p>for HTML</p>
+    <h1>字幕</h1>
+    <ul>
+        {}
+    </ul>
   </body>
 </html>
 """
-
-"""
-class divsubtitle(object):
-    self.COMMAND_HEAD = object['opensubtitile']['COMMON_HEAD']
-    self.SUB_URL_FORSEARCH= object['opensubtitile']['SUB_URL_FORSEARCH']
-    self.SUB_URL= object['opensubtitile']['SUB_URL']
-    self.SUB_DL_URL= object['opensubtitile']['SUB_DL_URL']
-    self.MOVIE_URL= object['opensubtitile']['MOVIE_URL']
-    pass
+SUB_MAIL ="""\
+     <li>
+    <p id="movie2001">{}</p>
+    <p id="subname">{}</p>
+    <img width="94" height="139" id="coverurl" src="{}" />
+    <p id="dlurl">  {} </p>
+    <p>Rate: {} @ {}</p>
+    </p>
+    </li>
 """
 
 class Subtitle():
@@ -73,6 +76,7 @@ class Subtitle():
         movie_object =  {
             "key": cls.movie_title,
             "id": "",
+            "cover":"",
             "name": '',
             "year": '',
             "wanted": True,
@@ -81,7 +85,8 @@ class Subtitle():
             "total": 0,
             "lastFound": "",
             "subList": [],
-            "subListFlat" :""
+            "subListFlat" :"",
+            "subListHtml" :""
         }
         if (movie_info != []):
             movie_object['id'] = movie_info['name']+'-'+movie_info['year']
@@ -94,7 +99,8 @@ class Subtitle():
             movie_object['lastFound'] = str(datetime.date.today())
             movie_object['subList'] = cls.get_sub_info(movie_object)
             for f in movie_object['subList']:
-                movie_object['subListFlat']+=f['subName']+" rating:"+f['rating']+" year:"+f['uploadYmd']+" idman.exe /n /p b:\ /d "+f['subUrl']
+                movie_object['subListHtml']+=(SUB_MAIL.format(movie_object['key']+movie_object['year'],f['subName'],f['cover'],f['subUrl'],f['rating'],f['uploadYmd']))
+                #movie_object['subListFlat']+=f['subName']+" rating:"+f['rating']+" year:"+f['uploadYmd']+" "+f['cover']+"  "+f['subUrl']
         cls.movie_target.append(movie_object)
 
     @classmethod
@@ -143,23 +149,31 @@ class Subtitle():
                     "subName": subName,
                     "rating": rating,
                     "uploadYmd": uploadYmd[2]+'/'+uploadYmd[1]+'/'+uploadYmd[0],
-                    "subUrl": subUrl
+                    "subUrl": subUrl,
+                    "cover": "http://static7.opensubtitles.org/gfx/thumbs/0/8/3/7/2407380.jpg" #TODO
                 }
                 # print(single_sub)
                 rtn.append(single_sub)
         else:
             # only one subtitile, html rendered differently
             sub_id = soup.find('a', download='download')['data-product-id']
+            sub_img= ''
             #subUrl = soup.find('a',download='download')['href']
             subUrl = SUB_DL_URL.replace('SUBID', sub_id)
-            print("##################"+subUrl)
+            for cover in soup.find_all('a',title='Download'):
+                u = cover.find('img')
+                if u!= None:
+                    sub_img = 'https:'+u['src']
+  
+
             subName = soup.find('a', download='download')['data-product-name']
             single_sub = {
                 "subId": sub_id,
                 "subName": subName,
-                "rating": 'TODO',
-                "uploadYmd": 'TODO',
-                "subUrl": subUrl
+                "rating": 'N/A',
+                "uploadYmd": 'N/A',
+                "subUrl": subUrl,
+                "cover":sub_img
             }
             rtn.append(single_sub)
         # print(rtn)
@@ -180,12 +194,13 @@ def send_mail(mail_info):
             msg.add_header('from', mail_user)
             msg.add_header('To',', '.join(mail_to))
             msg.add_header('subject', mail_subject)
-            msg.attach(MIMEText(MAIL,'html'))
+            msg.attach(MIMEText(mail_body,'html'))
             #msg.set_payload(mail_body)
             smtpobj.set_debuglevel(1)
             smtpobj.login(mail_user, mail_pass)
             smtpobj.send_message(msg)
             #smtpobj.sendmail('caijmiscool@gmail.com', mail_server, msg.as_string())
+            
             smtpobj.quit()
     except Exception as e:
         logging.exception(e)
@@ -194,6 +209,8 @@ if __name__ == '__main__':
     args = sys.argv
     if len(args) <= 2:
         #print("usage : python Waitsub.py movie-name [movie-year]")
+
+        print()
         with open(RESOURCE) as resource_json_file:
             resource_json = json.load(resource_json_file)
             mail_info = resource_json['mail_info']
@@ -203,13 +220,12 @@ if __name__ == '__main__':
             for m in resource_json['moveie_for_search']:
                 if (m['wanted']):
                     sub = Subtitle(m['name'], m['year'])
-                    mail_body += m['name'] + " " + m['year']+"\n"
                     sub.get_movie_info()
                     #print(sub.movie_target)
                     if (sub.movie_target != []):
                         has_result = True
                         for t in sub.movie_target:
-                            mail_body += "  "+t['subListFlat']+"\n"
+                            mail_body += t['subListHtml']+"\n"
                     else:
                         mail_body += "  no jap subtitle found\n"
                         print(m['name']+"("+ m['year']+") has no results")
