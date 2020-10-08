@@ -16,26 +16,40 @@
     "SUB_DL_URL": "http://dl.opensubtitles.org/en/download/sub/SUBID",
     "MOVIE_URL": "https://www.opensubtitles.org/en/search/sublanguageid-jpn/idmovie-MOVIEID"
   },
-  "moveie_for_search": [{
-      "name": "wonder woman",
+  "moveie_for_search": [ {
+      "name": "blood vessel",
       "year": "2020",
       "wanted": true
     },
-    {
-      "name": "tenet",
-      "year": "2020",
-      "wanted": true
-    },
-    {
-      "name": "men in black",
-      "year": "",
-      "wanted": true
-    },
-    {
-      "name": "yummy",
+        {
+      "name": "el camino a breaking bad movie",
       "year": "2019",
       "wanted": true
-    }
-   
-  ] 
+    },
+        {
+      "name": "escape from pretoria",
+      "year": "2020",
+      "wanted": true
+    },
+      {
+      "name": "ford v ferrari",
+      "year": "2019",
+      "wanted": true
+    },  {
+      "name": "greyhound",
+      "year": "2020",
+      "wanted": true
+    },  {
+      "name": "hard kill",
+      "year": "2020",
+      "wanted": true
+    },  {
+      "name": "inheritance",
+      "year": "2020",
+      "wanted": true
+    },  {
+      "name": "jordan to the max",
+      "year": "2020",
+      "wanted": true
+    }] 
 }

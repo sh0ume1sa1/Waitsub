@@ -19,6 +19,7 @@ import re
 import logging
 from smtplib import SMTP_SSL
 from email.message import EmailMessage
+from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import datetime
 
@@ -32,6 +33,17 @@ SUB_URL = COMMON_HEAD + "subtitleserve/sub/SUBID"
 SUB_DL_URL = COMMON_HEAD + "download/sub/SUBID"
 MOVIE_URL_JP = "search/sublanguageid-jpn/idmovie-MOVIEID"
 DEBUG = False
+MAIL = """\
+<html>
+  <head></head>
+  <body>
+    <p style='font-size:16.0pt;font-family:游ゴシック'>This is a test message.</p>
+    <p>Text and HTML</p>
+    <p>for HTML</p>
+  </body>
+</html>
+"""
+
 """
 class divsubtitle(object):
     self.COMMAND_HEAD = object['opensubtitile']['COMMON_HEAD']
@@ -164,14 +176,16 @@ def send_mail(mail_info):
     
     try:
         with SMTP_SSL(host=mail_server, port=mail_port, local_hostname=None, timeout=3000, source_address=None) as smtpobj:
-            msg = EmailMessage()
+            msg = MIMEMultipart('alternative')
             msg.add_header('from', mail_user)
             msg.add_header('To',', '.join(mail_to))
             msg.add_header('subject', mail_subject)
-            msg.set_payload(mail_body)
+            msg.attach(MIMEText(MAIL,'html'))
+            #msg.set_payload(mail_body)
             smtpobj.set_debuglevel(1)
             smtpobj.login(mail_user, mail_pass)
             smtpobj.send_message(msg)
+            #smtpobj.sendmail('caijmiscool@gmail.com', mail_server, msg.as_string())
             smtpobj.quit()
     except Exception as e:
         logging.exception(e)
