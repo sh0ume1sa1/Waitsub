@@ -1,6 +1,6 @@
 {
   "mail_info": {
-    "mail_to": ["kayomii2678@gmail.com","caijmiscool@gmail.com"],
+    "mail_to": ["test1@gmail.com","test2@gmail.com"],
     "mail_server": "smtp.muumuu-mail.com",
     "mail_port": 465,
     "mail_pass": "", 
@@ -62,6 +62,5 @@
     "year": "",
     "wanted": true
   }
-  
-  ] 
-}
+}]
+
