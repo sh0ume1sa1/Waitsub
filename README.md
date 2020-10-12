@@ -4,7 +4,9 @@ opensubtitles.orgに指定されている映画の字幕がアップされた場
 
 If the subtitle is created on opensubtitles.org,send a mail.
 
-# TODO #
-自動ダウンロード
+resource.jsonをeditする
 
-機械翻訳の識別
+実行
+python waitsub.py   #テスト用
+python waitsub.py  mailpassword  #送信
+ 
