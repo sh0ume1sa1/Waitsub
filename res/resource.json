@@ -5,7 +5,7 @@
     "mail_port": 465,
     "mail_pass": "", 
     "mail_user": "noreply@tiza-mbp.biz",
-    "mail_subject":"字幕The subtitle you are waitng for is Uploaded !!!",
+    "mail_subject":"待望の字幕が見つかりました！",
     "mail_body":"<div></div>"
 
   },
@@ -38,18 +38,29 @@
     },  {
       "name": "greyhound",
       "year": "2020",
-      "wanted": true
+      "wanted": false
     },  {
       "name": "hard kill",
       "year": "2020",
-      "wanted": true
+      "wanted": false
     },  {
       "name": "inheritance",
       "year": "2020",
-      "wanted": true
+      "wanted": false
     },  {
       "name": "jordan to the max",
       "year": "2020",
-      "wanted": true
-    }] 
-}
+      "wanted": false
+    }
+  ,{
+    "name": "jurassic world",
+    "year": "2018",
+    "wanted": true
+  }
+  ,{
+    "name": "men in black",
+    "year": "",
+    "wanted": true
+  }
+}]
+
