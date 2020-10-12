@@ -103,8 +103,6 @@ class Subtitle():
             movie_object['lastFound'] = str(datetime.date.today())
             movie_object['subList'] = cls.get_sub_info(movie_object)
             for index, f in enumerate(movie_object['subList']):
-                
-                #TODO refs WSB-7 key同じsublistの場合は key year coverは1回目だけに連結する
                 if index == 0:
                     movie_object['subListHtml']+=(SUB_MAIL.format('',movie_object['key']+movie_object['year'],f['cover'],f['subName'],f['subUrl'],f['rating'],f['uploadYmd']))
                 else:
