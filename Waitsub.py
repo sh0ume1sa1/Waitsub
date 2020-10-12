@@ -14,9 +14,11 @@ from bs4 import BeautifulSoup
 import urllib.request
 import requests
 import json
+import datetime
 import sys
 import re
 import logging
+import codecs
 from smtplib import SMTP_SSL
 from email.message import EmailMessage
 from email.mime.multipart import MIMEMultipart
@@ -184,18 +186,19 @@ def send_mail(mail_info):
     mail_server = mail_info["mail_server"]
     mail_port = mail_info["mail_port"]
     mail_user = mail_info["mail_user"]
-    mail_subject = mail_info["mail_subject"]
+    mail_subject = mail_info["mail_subject"]+(datetime.datetime.now().strftime('%Y/%m/%d'))
     mail_pass = mail_info["mail_pass"]
     mail_body = mail_info["mail_body"]
     
     try:
         with SMTP_SSL(host=mail_server, port=mail_port, local_hostname=None, timeout=3000, source_address=None) as smtpobj:
             msg = MIMEMultipart('alternative')
+            msg.set_charset("shift-js")
             msg.add_header('from', mail_user)
             msg.add_header('To',', '.join(mail_to))
-            msg.add_header('subject', mail_subject)
-            msg.attach(MIMEText(mail_body,'html'))
-            #msg.set_payload(mail_body)
+            msg.add_header('subject',mail_subject)
+            print(mail_subject)
+            msg.attach(MIMEText(MAIL.format(mail_body),'html'))
             smtpobj.set_debuglevel(1)
             smtpobj.login(mail_user, mail_pass)
             smtpobj.send_message(msg)
@@ -209,15 +212,13 @@ if __name__ == '__main__':
     args = sys.argv
     if len(args) <= 2:
         #print("usage : python Waitsub.py movie-name [movie-year]")
-
-        print()
-        with open(RESOURCE) as resource_json_file:
-            resource_json = json.load(resource_json_file)
-            mail_info = resource_json['mail_info']
-            # search subtitles
-            mail_body = ""
-            has_result = False
-            for m in resource_json['moveie_for_search']:
+        resource_json_file = codecs.open(RESOURCE, 'r','utf-8')
+        resource_json = json.load(resource_json_file)
+        mail_info = resource_json['mail_info']
+        # search subtitles
+        mail_body = ""
+        has_result = False
+        for m in resource_json['moveie_for_search']:
                 if (m['wanted']):
                     sub = Subtitle(m['name'], m['year'])
                     sub.get_movie_info()
@@ -229,14 +230,14 @@ if __name__ == '__main__':
                     else:
                         mail_body += "  no jap subtitle found\n"
                         print(m['name']+"("+ m['year']+") has no results")
-            mail_info['mail_body'] = mail_body
-            if (len(args)  == 2 and has_result): #password inputed and subtitle found
-                mail_info["mail_pass"] = args[1]
-                send_mail(mail_info)
-            else:
-                if (mail_body != ''):
-                    print("--------------------\n")
-                    print(mail_body)
+        mail_info['mail_body'] = mail_body
+        if (len(args)  == 2 and has_result): #password inputed and subtitle found
+            mail_info["mail_pass"] = args[1]
+            send_mail(mail_info)
+        else:
+            if (mail_body != ''):
+                print("--------------------\n")
+                print(mail_body)
         resource_json_file.close()
     else:
         #mail test

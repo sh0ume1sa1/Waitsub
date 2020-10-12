@@ -5,7 +5,7 @@
     "mail_port": 465,
     "mail_pass": "", 
     "mail_user": "noreply@tiza-mbp.biz",
-    "mail_subject":"The subtitle you are waitng for is Uploaded !!!",
+    "mail_subject":"字幕The subtitle you are waitng for is Uploaded !!!",
     "mail_body":"<div></div>"
 
   },
