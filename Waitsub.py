@@ -104,7 +104,7 @@ class Subtitle():
             movie_object['subList'] = cls.get_sub_info(movie_object)
             for index, f in enumerate(movie_object['subList']):
                 if index == 0:
-                    movie_object['subListHtml']+=(SUB_MAIL.format('',movie_object['key']+movie_object['year'],f['cover'],f['subName'],f['subUrl'],f['rating'],f['uploadYmd']))
+                    movie_object['subListHtml']+=(SUB_MAIL.format('',movie_object['key']+" "+movie_object['year'],f['cover'],f['subName'],f['subUrl'],f['rating'],f['uploadYmd']))
                 else:
                     movie_object['subListHtml']+=(SUB_MAIL.format('style=display:none;','',f['cover'],f['subName'],f['subUrl'],f['rating'],f['uploadYmd']))
 
@@ -195,7 +195,7 @@ def send_mail(mail_info):
     mail_server = mail_info["mail_server"]
     mail_port = mail_info["mail_port"]
     mail_user = mail_info["mail_user"]
-    mail_subject = mail_info["mail_subject"]+(datetime.datetime.now().strftime('%Y/%m/%d'))
+    mail_subject = mail_info["mail_subject"]+(datetime.datetime.now().strftime('%Y/%m/%d %H:%M'))
     mail_pass = mail_info["mail_pass"]
     mail_body = mail_info["mail_body"]
     
@@ -237,7 +237,7 @@ if __name__ == '__main__':
                         for t in sub.movie_target:
                             mail_body += t['subListHtml']+"\n"
                     else:
-                        mail_body += "  no jap subtitle found\n"
+                        #mail_body += "  no jap subtitle found\n" 
                         print(m['name']+"("+ m['year']+") has no results")
         mail_info['mail_body'] = mail_body
         if (len(args)  == 2 and has_result): #password inputed and subtitle found
