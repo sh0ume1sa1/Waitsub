@@ -29,10 +29,11 @@ SUB_DL_DIR = "..\\sub"
 RESOURCE = "./res/resource.json"
 # opensubtile
 COMMON_HEAD = "https://www.opensubtitles.org/en/"
+DL_URL_HEAD = "https://dl.opensubtitles.org/en/"
 SUB_URL_FORSEARCH_JP = "https://www.opensubtitles.org/libs/suggest.php?format=json3&MovieName=TESTTEST&SubLanguageID=jpn"
 #todo SUB_URL_FORSEARCH_ZH = "https://www.opensubtitles.org/libs/suggest.php?format=json3&MovieName=TESTTEST&SubLanguageID=jpn"
 SUB_URL = COMMON_HEAD + "subtitleserve/sub/SUBID"
-SUB_DL_URL = COMMON_HEAD + "download/sub/SUBID"
+SUB_DL_URL = DL_URL_HEAD + "download/sub/SUBID"
 MOVIE_URL_JP = "search/sublanguageid-jpn/idmovie-MOVIEID"
 DL_URL = "http://dl.opensubtitles.org/en/download/sub/"
 DEBUG = False
@@ -50,12 +51,13 @@ MAIL = """\
 """
 SUB_MAIL ="""\
     <li>
+    <div {}>
     <p id="movie2001">{}</p>
     <img width="94" height="139" id="coverurl" src="{}" />
+    </div>
     <p id="subname">{}</p>
     <p id="dlurl">  {} </p>
     <p>Rate: {} @ {}</p>
-    </p>
     </li>
 """
 
@@ -100,8 +102,14 @@ class Subtitle():
             movie_object['total'] = movie_info['total']
             movie_object['lastFound'] = str(datetime.date.today())
             movie_object['subList'] = cls.get_sub_info(movie_object)
-            for f in movie_object['subList']:
-                movie_object['subListHtml']+=(SUB_MAIL.format(movie_object['key']+movie_object['year'],f['cover'],f['subName'],f['subUrl'],f['rating'],f['uploadYmd']))
+            for index, f in enumerate(movie_object['subList']):
+                
+                #TODO refs WSB-7 key同じsublistの場合は key year coverは1回目だけに連結する
+                if index == 0:
+                    movie_object['subListHtml']+=(SUB_MAIL.format('',movie_object['key']+movie_object['year'],f['cover'],f['subName'],f['subUrl'],f['rating'],f['uploadYmd']))
+                else:
+                    movie_object['subListHtml']+=(SUB_MAIL.format('style=display:none;','',f['cover'],f['subName'],f['subUrl'],f['rating'],f['uploadYmd']))
+
                 #movie_object['subListFlat']+=f['subName']+" rating:"+f['rating']+" year:"+f['uploadYmd']+" "+f['cover']+"  "+f['subUrl']
         cls.movie_target.append(movie_object)
 
@@ -196,7 +204,7 @@ def send_mail(mail_info):
     try:
         with SMTP_SSL(host=mail_server, port=mail_port, local_hostname=None, timeout=3000, source_address=None) as smtpobj:
             msg = MIMEMultipart('alternative')
-            msg.set_charset("shift-js")
+            msg.set_charset("utf-8")
             msg.add_header('from', mail_user)
             msg.add_header('To',', '.join(mail_to))
             msg.add_header('subject',mail_subject)
