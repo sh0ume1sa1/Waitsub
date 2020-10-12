@@ -49,10 +49,10 @@ MAIL = """\
 </html>
 """
 SUB_MAIL ="""\
-     <li>
+    <li>
     <p id="movie2001">{}</p>
-    <p id="subname">{}</p>
     <img width="94" height="139" id="coverurl" src="{}" />
+    <p id="subname">{}</p>
     <p id="dlurl">  {} </p>
     <p>Rate: {} @ {}</p>
     </p>
@@ -101,7 +101,7 @@ class Subtitle():
             movie_object['lastFound'] = str(datetime.date.today())
             movie_object['subList'] = cls.get_sub_info(movie_object)
             for f in movie_object['subList']:
-                movie_object['subListHtml']+=(SUB_MAIL.format(movie_object['key']+movie_object['year'],f['subName'],f['cover'],f['subUrl'],f['rating'],f['uploadYmd']))
+                movie_object['subListHtml']+=(SUB_MAIL.format(movie_object['key']+movie_object['year'],f['cover'],f['subName'],f['subUrl'],f['rating'],f['uploadYmd']))
                 #movie_object['subListFlat']+=f['subName']+" rating:"+f['rating']+" year:"+f['uploadYmd']+" "+f['cover']+"  "+f['subUrl']
         cls.movie_target.append(movie_object)
 
@@ -127,10 +127,13 @@ class Subtitle():
         print(movie_object['name'], movie_object['total']+' subs')
         html = urllib.request.urlopen(COMMON_HEAD+movie_url).read()
         soup = BeautifulSoup(html, 'html.parser')
+        # 一つ以上字幕があった場合
         if int(movie_object['total']) > 1:
-            # _print("koko")
-        # more than one subtitile
-            # nameXXXXXXX subid 3~7 digital
+            # cover url
+            sub_img=""
+            for cover in soup.find_all('img',title=' - subtitles'):
+                if cover!= None:
+                    sub_img = 'https:'+cover['src']
             all_sub = soup.find_all('tr', id=re.compile(r'^name\d{3,9}$'))
             # print(all_sub)
             for one_sub in all_sub:
@@ -145,14 +148,14 @@ class Subtitle():
                     rating = one_sub.find_all('td')[5].find(
                         'span').text + '/' + one_sub.find_all('td')[5].find('span')['title']
                 except:
-                    rating = "no vote"
+                    rating = "解析error"
                 single_sub = {
                     "subId": sub_id,
                     "subName": subName,
                     "rating": rating,
                     "uploadYmd": uploadYmd[2]+'/'+uploadYmd[1]+'/'+uploadYmd[0],
                     "subUrl": subUrl,
-                    "cover": "http://static7.opensubtitles.org/gfx/thumbs/0/8/3/7/2407380.jpg" #TODO
+                    "cover": sub_img
                 }
                 # print(single_sub)
                 rtn.append(single_sub)
